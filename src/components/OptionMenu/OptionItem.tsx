@@ -1,75 +1,42 @@
-import React, { useState }  from "react"
-import PropTypes from 'prop-types';
+import React from "react";
 import { SoftKeyConsumer } from '../SoftKey/withSoftKeyManager';
+import { useFocus } from '../../hooks/useFocus';
 
-const prefixCls = 'kai-om';
+const prefixCls = 'kai-menu';
 
-const OptionItem = React.memo<any>(
-    props => {
-      const { 
-        index,
-        text,
-        onClick,
-        onFocusChange,
-        softKeyManager,
-        forwardedRef
-      } = props;
-      
-      const [, setFocused] = useState(false);
-      
-      const itemCls = `${prefixCls}-item`;
-  
-      const handleFocusChange = (isNowFocused) => {
-        setFocused(isNowFocused);
-        if(isNowFocused) {
-          softKeyManager.setSoftKeyTexts({ centerText: "Select" });
-          softKeyManager.setSoftKeyCallbacks({
-            centerCallback: onClick
-          });
-          if(onFocusChange)
-            onFocusChange(index)
-        } else {
-          softKeyManager.unregisterSoftKeys();
-        }
-      };
-  
-      return (
-        <div
-          tabIndex={0}
-          ref={forwardedRef}
-          onFocus={() => handleFocusChange(true)}
-          onBlur={() => handleFocusChange(false)}
-          className={itemCls}>
-          {text}
-        </div>
-      );
+interface LocalProps {
+  index: number
+  text: string
+  onFocusChange?: (index: number) => void
+  onClick?: () => void
+  softKeyManager?: any
+  forwardedRef?: any
+}
+
+const OptionItem = React.memo<LocalProps>(props => {
+  const { index, text, onFocusChange, forwardedRef } = props;
+
+  const itemCls = `${prefixCls}-item`;
+
+  const handleFocusChange = () => {
+    if (isFocused && onFocusChange) {
+      onFocusChange(index);
     }
-  );
-  /*
-  OptionItem.propTypes = {
-    index: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    ref: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-    ]),
-    onFocusChange: PropTypes.func,
-    onClick: PropTypes.func
   };
-  
-  OptionItem.defaultProps = {
-    onFocusChange: () => {},
-    onClick: () => {}
-  };*/
-  
-  export default React.forwardRef((props:any, ref) => (
-    <SoftKeyConsumer>
-      {context => (
-        <OptionItem
-          softKeyManager={context}
-          forwardedRef={ref}
-          {...props}
-        />
-      )}
-    </SoftKeyConsumer>
-  ));
+
+  const isFocused = useFocus(forwardedRef, handleFocusChange, false);
+
+  return (
+    <div tabIndex={0} ref={forwardedRef} className={itemCls}>
+      {text}
+    </div>
+  );
+});
+
+export default React.forwardRef((props: LocalProps, ref) => (
+  <SoftKeyConsumer>
+    {(context: any) => (
+      <OptionItem softKeyManager={context} forwardedRef={ref} {...props} />
+    )}
+  </SoftKeyConsumer>
+));
