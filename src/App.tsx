@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Header from './components/Header/Header';
 import { SoftKeyProvider } from './components/SoftKey/SoftKeyProvider';
 import TabView from './views/TabView/TabView';
-import ListView from './views/ListView/ListView';
+import ListView from './components/ListView/ListView';
 import CheckboxListItem from './components/CheckboxListItem/CheckboxListItem';
 import IconListItem from './components/IconListItem/IconListItem';
 import TextListItem from './components/TextListItem/TextListItem';

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './TriColumnListView.scss';
-import ListView from '../ListView/ListView';
 import ScrollingListView from '../ScrollingListView/ScrollingListView';
 
 const prefixCls = 'kai-tricol-view';
