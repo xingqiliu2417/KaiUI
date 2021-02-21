@@ -1,0 +1,33 @@
+@import '../../theme/fonts.scss';
+@import '../../theme/theme.scss';
+@import '../../theme/layout';
+
+:root {
+  --tl-text-focused: var(--color-gs00);
+}
+
+.kai-list-item {
+  height: fit-content;
+  width: 100%;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  span,
+  label {
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  &:focus {
+    // color: var(--tl-text-focused);
+    background-color: #a3eaf7!important;
+  }
+
+  &-focused {}
+}
